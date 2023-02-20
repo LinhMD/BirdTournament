@@ -4,6 +4,7 @@ using BirdTournament.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirdTournament.API.Migrations
 {
     [DbContext(typeof(BirdTournamentDataContext))]
-    partial class BirdTournamentDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230220150645_fix_type")]
+    partial class fix_type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

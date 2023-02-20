@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace PhuQuocVoucher.Api.Ultility;
+namespace CrudApiTemplate.Utilities;
 
 public static class Common
 {

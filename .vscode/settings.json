@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/18c6847f-a6db-42f1-be54-f9e746b8dbfb/AppServices/subscriptions/18c6847f-a6db-42f1-be54-f9e746b8dbfb/resourceGroups/azure-free-resource/providers/Microsoft.Web/sites/bird-tournament",
+    "appService.deploySubpath": "BirdTournament.API\\bin\\Debug\\net6.0\\publish"
+}

@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using PhuQuocVoucher.Api.Ultility;
 
 namespace CrudApiTemplate.Attributes.Search;
 
@@ -18,7 +17,7 @@ public abstract class FilterAttribute : Attribute
     {
     }
 
-    public string? Target { get;  }
+    public string? Target { get; }
 
     public string? PropertyName { get; }
 

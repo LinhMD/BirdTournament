@@ -6,11 +6,11 @@ using CrudApiTemplate.CustomBinding;
 using CrudApiTemplate.CustomException;
 using CrudApiTemplate.Repository;
 using CrudApiTemplate.Request;
+using CrudApiTemplate.Response;
 using CrudApiTemplate.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static PhuQuocVoucher.Api.Ultility.Common;
 
 namespace PhuQuocVoucher.Api.Controllers;
 
@@ -32,10 +32,10 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get(
+    public async Task<ActionResult<PagingResponse<UserView>>> Get(
         [FromQuery] FindUser request,
         [FromQuery] PagingRequest paging,
-        [RegularExpression(SortByRegexString)] string? orderBy)
+        [RegularExpression(Common.SortByRegexString)] string? orderBy)
     {
         return Ok((await _userService.GetAsync<UserView>(new GetRequest<User>
         {

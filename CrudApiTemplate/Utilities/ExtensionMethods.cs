@@ -2,7 +2,6 @@
 using CrudApiTemplate.CustomException;
 using CrudApiTemplate.Request;
 using CrudApiTemplate.Response;
-using PhuQuocVoucher.Api.Ultility;
 
 namespace CrudApiTemplate.Utilities;
 

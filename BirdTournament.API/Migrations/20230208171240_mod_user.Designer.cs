@@ -4,6 +4,7 @@ using BirdTournament.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirdTournament.API.Migrations
 {
     [DbContext(typeof(BirdTournamentDataContext))]
-    partial class BirdTournamentDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230208171240_mod_user")]
+    partial class mod_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,21 @@ namespace BirdTournament.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("BirdTournament", b =>
+                {
+                    b.Property<int>("ParticipationBirdsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TournamentJoinsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ParticipationBirdsId", "TournamentJoinsId");
+
+                    b.HasIndex("TournamentJoinsId");
+
+                    b.ToTable("BirdTournament");
+                });
 
             modelBuilder.Entity("BirdTournament.Data.Model.Article", b =>
                 {
@@ -87,6 +104,9 @@ namespace BirdTournament.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MyProperty")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -114,7 +134,7 @@ namespace BirdTournament.API.Migrations
                     b.ToTable("Birds");
                 });
 
-            modelBuilder.Entity("BirdTournament.Data.Model.BirdOwner", b =>
+            modelBuilder.Entity("BirdTournament.Data.Model.BirdOwer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,9 +152,8 @@ namespace BirdTournament.API.Migrations
                     b.Property<DateTime?>("DeleteAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Name")
+                        .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -149,16 +168,11 @@ namespace BirdTournament.API.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VipAccountId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VipAccountId");
-
-                    b.ToTable("BirdOwners");
+                    b.ToTable("BirdOwers");
                 });
 
             modelBuilder.Entity("BirdTournament.Data.Model.BirdType", b =>
@@ -255,6 +269,9 @@ namespace BirdTournament.API.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TournamentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("datetime2");
 
@@ -267,6 +284,8 @@ namespace BirdTournament.API.Migrations
 
                     b.HasIndex("PlaceId");
 
+                    b.HasIndex("TournamentId");
+
                     b.ToTable("Competitions");
                 });
 
@@ -278,10 +297,10 @@ namespace BirdTournament.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("BirdOwnerId")
+                    b.Property<int?>("BirdOwerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CompetitionID")
+                    b.Property<int>("CompetitionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -305,9 +324,9 @@ namespace BirdTournament.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BirdOwnerId");
+                    b.HasIndex("BirdOwerId");
 
-                    b.HasIndex("CompetitionID");
+                    b.HasIndex("CompetitionId");
 
                     b.HasIndex("UserId");
 
@@ -358,10 +377,7 @@ namespace BirdTournament.API.Migrations
                     b.Property<int>("BirdId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BirdOwnerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BirhOwnerId")
+                    b.Property<int>("BirdOwerId")
                         .HasColumnType("int");
 
                     b.Property<int>("CompetitionId")
@@ -389,7 +405,7 @@ namespace BirdTournament.API.Migrations
 
                     b.HasIndex("BirdId");
 
-                    b.HasIndex("BirdOwnerId");
+                    b.HasIndex("BirdOwerId");
 
                     b.HasIndex("CompetitionId");
 
@@ -414,7 +430,7 @@ namespace BirdTournament.API.Migrations
                     b.Property<DateTime?>("DeleteAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LocationId")
+                    b.Property<int>("Location")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -424,8 +440,6 @@ namespace BirdTournament.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
 
                     b.ToTable("Places");
                 });
@@ -462,7 +476,7 @@ namespace BirdTournament.API.Migrations
                     b.ToTable("Ranks");
                 });
 
-            modelBuilder.Entity("BirdTournament.Data.Model.Region", b =>
+            modelBuilder.Entity("BirdTournament.Data.Model.Tournament", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -470,13 +484,31 @@ namespace BirdTournament.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TournamentEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TournamentStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Region");
+                    b.ToTable("Tournaments");
                 });
 
             modelBuilder.Entity("BirdTournament.Data.Model.User", b =>
@@ -546,6 +578,9 @@ namespace BirdTournament.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BirdOwerId")
+                        .IsUnique();
+
                     b.ToTable("VipAccounts");
                 });
 
@@ -585,6 +620,21 @@ namespace BirdTournament.API.Migrations
                     b.ToTable("VipFeatures");
                 });
 
+            modelBuilder.Entity("BirdTournament", b =>
+                {
+                    b.HasOne("BirdTournament.Data.Model.Bird", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipationBirdsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BirdTournament.Data.Model.Tournament", null)
+                        .WithMany()
+                        .HasForeignKey("TournamentJoinsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BirdTournament.Data.Model.Article", b =>
                 {
                     b.HasOne("BirdTournament.Data.Model.User", "CreateBy")
@@ -604,7 +654,7 @@ namespace BirdTournament.API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BirdTournament.Data.Model.BirdOwner", "Owner")
+                    b.HasOne("BirdTournament.Data.Model.BirdOwer", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -623,7 +673,7 @@ namespace BirdTournament.API.Migrations
                     b.Navigation("Rank");
                 });
 
-            modelBuilder.Entity("BirdTournament.Data.Model.BirdOwner", b =>
+            modelBuilder.Entity("BirdTournament.Data.Model.BirdOwer", b =>
                 {
                     b.HasOne("BirdTournament.Data.Model.User", "User")
                         .WithMany()
@@ -631,14 +681,7 @@ namespace BirdTournament.API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BirdTournament.Data.Model.VipAccount", "VipAccount")
-                        .WithMany()
-                        .HasForeignKey("VipAccountId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("User");
-
-                    b.Navigation("VipAccount");
                 });
 
             modelBuilder.Entity("BirdTournament.Data.Model.Comment", b =>
@@ -673,19 +716,26 @@ namespace BirdTournament.API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("BirdTournament.Data.Model.Tournament", "Tournament")
+                        .WithMany("Competitions")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Place");
+
+                    b.Navigation("Tournament");
                 });
 
             modelBuilder.Entity("BirdTournament.Data.Model.FeedBack", b =>
                 {
-                    b.HasOne("BirdTournament.Data.Model.BirdOwner", null)
+                    b.HasOne("BirdTournament.Data.Model.BirdOwer", null)
                         .WithMany("FeedBacks")
-                        .HasForeignKey("BirdOwnerId")
+                        .HasForeignKey("BirdOwerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BirdTournament.Data.Model.Competition", "Competition")
                         .WithMany("FeedBacks")
-                        .HasForeignKey("CompetitionID")
+                        .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -719,9 +769,9 @@ namespace BirdTournament.API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BirdTournament.Data.Model.BirdOwner", "BirdOwner")
+                    b.HasOne("BirdTournament.Data.Model.BirdOwer", "BirdOwer")
                         .WithMany()
-                        .HasForeignKey("BirdOwnerId")
+                        .HasForeignKey("BirdOwerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -733,20 +783,18 @@ namespace BirdTournament.API.Migrations
 
                     b.Navigation("Bird");
 
-                    b.Navigation("BirdOwner");
+                    b.Navigation("BirdOwer");
 
                     b.Navigation("Competition");
                 });
 
-            modelBuilder.Entity("BirdTournament.Data.Model.Place", b =>
+            modelBuilder.Entity("BirdTournament.Data.Model.VipAccount", b =>
                 {
-                    b.HasOne("BirdTournament.Data.Model.Region", "Location")
-                        .WithMany("Places")
-                        .HasForeignKey("LocationId")
+                    b.HasOne("BirdTournament.Data.Model.BirdOwer", null)
+                        .WithOne("VipAccount")
+                        .HasForeignKey("BirdTournament.Data.Model.VipAccount", "BirdOwerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("BirdTournament.Data.Model.VipFeature", b =>
@@ -770,9 +818,12 @@ namespace BirdTournament.API.Migrations
                     b.Navigation("Games");
                 });
 
-            modelBuilder.Entity("BirdTournament.Data.Model.BirdOwner", b =>
+            modelBuilder.Entity("BirdTournament.Data.Model.BirdOwer", b =>
                 {
                     b.Navigation("FeedBacks");
+
+                    b.Navigation("VipAccount")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BirdTournament.Data.Model.BirdType", b =>
@@ -792,9 +843,9 @@ namespace BirdTournament.API.Migrations
                     b.Navigation("ModerateCompetitions");
                 });
 
-            modelBuilder.Entity("BirdTournament.Data.Model.Region", b =>
+            modelBuilder.Entity("BirdTournament.Data.Model.Tournament", b =>
                 {
-                    b.Navigation("Places");
+                    b.Navigation("Competitions");
                 });
 
             modelBuilder.Entity("BirdTournament.Data.Model.VipAccount", b =>

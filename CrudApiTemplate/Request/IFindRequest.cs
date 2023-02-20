@@ -1,11 +1,10 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using CrudApiTemplate.Attributes.Search;
-using PhuQuocVoucher.Api.Ultility;
 
 namespace CrudApiTemplate.Request;
 
-public interface IFindRequest<TModel> where TModel: class
+public interface IFindRequest<TModel> where TModel : class
 {
     virtual Expression<Func<TModel, bool>> ToPredicate()
     {
@@ -14,7 +13,7 @@ public interface IFindRequest<TModel> where TModel: class
         foreach (var property in this.GetType().GetProperties())
         {
             var value = property?.GetValue(this);
-            if(value is null) continue;
+            if (value is null) continue;
 
             Expression tProperty;
             var filters = Attribute.GetCustomAttributes(property!, typeof(FilterAttribute)) as FilterAttribute[] ?? Array.Empty<FilterAttribute>();

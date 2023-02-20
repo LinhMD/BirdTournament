@@ -26,3 +26,9 @@ public class User : BaseModel
     }
 
 }
+public enum Role
+{
+    Admin,
+    User
+
+}
